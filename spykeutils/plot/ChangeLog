@@ -1,3 +1,7 @@
+2013-11-19  Mengchen Zhu  <mengchen@mengchen-t1650>
+
+	* rasterplot.py (raster): Added the option to sort the spike trains by name.
+
 2013-11-18  Mengchen Zhu  <mengchen@mengchen-laptop>
 
 	* peri_stimulus_histogram.py (psth): 

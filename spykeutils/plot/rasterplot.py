@@ -8,9 +8,11 @@ from .. import SpykeException
 from dialog import PlotDialog
 import helper
 
+import operator
 
 @helper.needs_qt
-def raster(trains, time_unit=pq.ms, show_lines=True, events=None, epochs=None):
+def raster(trains, time_unit=pq.ms, show_lines=True, events=None, epochs=None,
+           issort=False):
     """ Create a new plotting window with a rasterplot of spiketrains.
 
         :param dict trains: Dictionary of spike trains indexed by a
@@ -20,6 +22,7 @@ def raster(trains, time_unit=pq.ms, show_lines=True, events=None, epochs=None):
             for each spike train.
         :param sequence events: A sequence of neo `Event` objects that will
             be marked on the plot.
+        :param bool issort: Determines if the trains are sorted by the unit name.
 
     """
     if not trains:
@@ -41,7 +44,13 @@ def raster(trains, time_unit=pq.ms, show_lines=True, events=None, epochs=None):
 
     offset = len(trains)
     legend_items = []
-    for u, t in trains.iteritems():
+    if issort:
+        trainItr = iter([(u, trains[u]) \
+                        for u in sorted(trains.keys(),
+                            key=operator.attrgetter('name'))])
+    else:
+         trainItr = trains.iteritems()                                                  
+    for u, t in trainItr:
         color = helper.get_object_color(u)
 
         train = helper.add_spikes(
