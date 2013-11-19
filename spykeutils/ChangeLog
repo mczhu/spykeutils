@@ -1,0 +1,9 @@
+2013-11-18  Mengchen Zhu  <mengchen@mengchen-laptop>
+
+	* rate_estimation.py (psth): Moved the event alignment from peri_stimulus_histogram.py
+	(aligned_spike_trains): Added error check for spike trains without the segment attribute assigned.
+
+2013-11-17  Mengchen Zhu  <mengchen@mengchen-laptop>
+
+	* rate_estimation.py (psth): Changed start and stop time defaults to None.
+

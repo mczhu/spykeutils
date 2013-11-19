@@ -13,7 +13,7 @@ import helper
 
 
 @helper.needs_qt
-def psth(trains, events=None, start=0 * pq.ms, stop=None,
+def psth(trains, events=None, start=None, stop=None,
          bin_size=100 * pq.ms, rate_correction=True, bar_plot=False,
          time_unit=pq.ms, progress=None):
     """ Create a peri stimulus time histogram.
@@ -50,14 +50,9 @@ def psth(trains, events=None, start=0 * pq.ms, stop=None,
     if not progress:
         progress = ProgressIndicator()
 
-    # Align spike trains
-    for u in trains:
-        if events:
-            trains[u] = rate_estimation.aligned_spike_trains(
-                trains[u], events)
 
     rates, bins = rate_estimation.psth(
-        trains, bin_size, start=start, stop=stop,
+        trains, events, bin_size, start=start, stop=stop,
         rate_correction=rate_correction)
     bins = bins.rescale(time_unit)
 

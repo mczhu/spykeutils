@@ -1,0 +1,10 @@
+2013-11-18  Mengchen Zhu  <mengchen@mengchen-laptop>
+
+	* peri_stimulus_histogram.py (psth): 
+	Moved the event alignment to rate_estimation.py
+
+2013-11-17  Mengchen Zhu  <mengchen@mengchen-laptop>
+
+	* peri_stimulus_histogram.py (psth): 
+	Changed start and stop time defaults to None.
+

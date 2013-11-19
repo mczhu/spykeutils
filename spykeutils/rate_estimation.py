@@ -9,10 +9,11 @@ import tools
 import copy as cp
 from . import SpykeException
 
+import pdb
 
 def psth(
-        trains, bin_size, rate_correction=True, start=0 * pq.ms,
-        stop=sp.inf * pq.s):
+        trains, events=None, bin_size=100 * pq.ms, rate_correction=True, start=None,
+        stop=None):
     """ Return dictionary of peri stimulus time histograms for a dictionary
     of spike train lists.
 
@@ -38,8 +39,15 @@ def psth(
     if not trains:
         raise SpykeException('No spike trains for PSTH!')
 
+    # Align spike trains
+    for u in trains:
+        if events:
+            trains[u] = aligned_spike_trains(trains[u], events)
+
+    
     start, stop = tools.minimum_spike_train_interval(trains, start, stop)
     binned, bins = tools.bin_spike_trains(trains, 1.0 / bin_size, start, stop)
+
 
     cumulative = {}
     time_multiplier = 1.0 / float(bin_size.rescale(pq.s))
@@ -69,6 +77,12 @@ def aligned_spike_trains(trains, events, copy=True):
     ret = []
     for t in trains:
         s = t.segment
+        if s == None:
+            try:
+                raise AttributeError
+            except AttributeError:
+                print "The spike train is not associated with a segment attribute."
+                raise
         if s not in events:
             if not copy:
                 raise ValueError(
